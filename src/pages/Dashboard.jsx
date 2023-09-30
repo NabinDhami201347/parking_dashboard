@@ -47,7 +47,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <div className="my-10">
       <div className="grid grid-cols-4 gap-10 my-4">
         <div className="w-full rounded-lg border border-purple-300 hover:shadow-md hover:border-purple-500 cursor-pointer transition-colors p-4">
           <h1 className="text-xl">Total Parking Spots</h1>

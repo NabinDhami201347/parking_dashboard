@@ -4,19 +4,54 @@ import { Bike, Car, DollarSign } from "lucide-react";
 import { FcDoNotMix, FcServices } from "react-icons/fc";
 
 import parkingImage from "/parking.webp";
+import { publicApi } from "../api";
+import { useState } from "react";
+import Loading from "./Loading";
 
 const ParkingSpotInfo = ({ spot }) => {
+  const [loading, setLoading] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(spot.available);
+
+  const hanldeSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await publicApi.put(`/spots/${spot._id}/avaliability`);
+      // Update the availability state after a successful request
+      setIsAvailable(!isAvailable);
+    } catch (error) {
+      console.log("error while updating", error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="flex flex-col gap-4 my-6">
-      {spot.available ? (
-        <div className="flex items-center gap-4 bg-green-600 px-4 py-2 rounded-sm">
-          <FcServices className="h-10 w-10" />
-          <p className="text-2xl">Avaliable</p>
+      {isAvailable ? (
+        <div className="flex items-center justify-between gap-4 bg-green-600 px-4 py-2 rounded-sm">
+          <div className="flex items-center">
+            <FcServices className="h-10 w-10" />
+            <p className="text-2xl">Avaliable</p>
+          </div>
+          <button onClick={hanldeSubmit} className="py-1 px-4 bg-red-600 hover:bg-red-700 rounded-sm">
+            Mark as unavailable
+          </button>
         </div>
       ) : (
-        <div className="flex items-center gap-4 bg-red-600 px-4 py-2 rounded-sm">
-          <FcDoNotMix className="h-10 w-10" />
-          <p className="text-2xl">Unavailable</p>
+        <div className="flex items-center justify-between gap-4 bg-red-600 px-4 py-2 rounded-sm">
+          <div className="flex items-center">
+            <FcDoNotMix className="h-10 w-10" />
+            <p className="text-2xl">Unavaliable</p>
+          </div>
+          <button onClick={hanldeSubmit} className="py-1 px-4 bg-green-600 rounded-sm">
+            Mark as available
+          </button>
         </div>
       )}
       {spot.imageUrls.length >= 1 ? (

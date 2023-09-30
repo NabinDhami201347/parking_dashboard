@@ -15,7 +15,6 @@ const ParkingSpot = () => {
     try {
       const res = await publicApi.get(`/spots/${id}`);
       setSpot(res.data.spot);
-      console.log(res.data.spot);
       setLoading(false);
     } catch (error) {
       console.log(error);

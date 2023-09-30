@@ -14,7 +14,7 @@ const Navbar = () => {
             <Link to="/spots">Spots</Link>
           </li>
           <li className="hover:opacity-80 hover:underline">
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/create-spot">Create Spot</Link>
           </li>
         </ul>
       </nav>

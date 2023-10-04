@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { publicApi } from "../api";
 import TableRow from "./TableRow";
 import Loading from "./Loading";
+import ErrorComponent from "./ErrorComponent";
 
 const TableHeader = () => (
   <thead className="text-sm">
@@ -21,34 +22,22 @@ const TableHeader = () => (
 );
 
 const Reservations = () => {
-  const [reservations, setReservations] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: reservations,
+    isLoading,
+    isError,
+    error,
+  } = useQuery(["reservations"], async () => {
+    const response = await publicApi.get("reservations");
+    return response.data.reservations;
+  });
 
-  const fetchPosts = async () => {
-    try {
-      const response = await publicApi.get("reservations");
-      setReservations(response.data.reservations);
-      setLoading(false);
-    } catch (error) {
-      setError(error);
-      setLoading(false);
-    }
-  };
+  if (isLoading) {
+    return <Loading />;
+  }
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  if (loading) return <Loading />;
-
-  if (error) {
-    return (
-      <div>
-        <h1 className="text-2xl font-bold mb-4">Reservations</h1>
-        <p className="text-red-500">Error: {error.message}</p>
-      </div>
-    );
+  if (isError) {
+    return <ErrorComponent label="Reservations" error={error} />;
   }
 
   return (

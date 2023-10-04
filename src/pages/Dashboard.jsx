@@ -1,54 +1,66 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import Reservations from "../components/Reservations";
 import { privateApi } from "../api";
+import Loading from "../components/Loading";
+import ErrorComponent from "../components/ErrorComponent";
 
 const Dashboard = () => {
-  const [totalSpots, setTotalSpots] = useState(0);
-  const [totalCustomers, setTotalCustomers] = useState(0);
-  const [totalVehicles, setTotalVehicles] = useState(0);
-  const [totalReservations, setTotalReservations] = useState(0);
+  const {
+    data: totalSpots,
+    isLoading: isLoadingSpots,
+    isError: isErrorSpots,
+    error: errorSpots,
+  } = useQuery(["totalSpots"], async () => {
+    const res = await privateApi.get("/spots/total");
+    return res.data.total;
+  });
 
-  const fetchTotalSpots = async () => {
-    try {
-      const res = await privateApi.get("/spots/total");
-      setTotalSpots(res.data.total);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchTotalVehicles = async () => {
-    try {
-      const res = await privateApi.get("/vehicles/total");
-      setTotalVehicles(res.data.total);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchTotalReservations = async () => {
-    try {
-      const res = await privateApi.get("/reservations/total");
-      setTotalReservations(res.data.total);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchTotalCustomers = async () => {
-    try {
-      const res = await privateApi.get("/users/total");
-      setTotalCustomers(res.data.total);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const {
+    data: totalVehicles,
+    isLoading: isLoadingVehicles,
+    isError: isErrorVehicles,
+    error: errorVehicles,
+  } = useQuery(["totalVehicles"], async () => {
+    const res = await privateApi.get("/vehicles/total");
+    return res.data.total;
+  });
 
-  useEffect(() => {
-    Promise.all([fetchTotalSpots(), fetchTotalVehicles(), fetchTotalReservations(), fetchTotalCustomers()]);
-  }, []);
+  const {
+    data: totalReservations,
+    isLoading: isLoadingReservations,
+    isError: isErrorReservations,
+    error: errorReservations,
+  } = useQuery(["totalReservations"], async () => {
+    const res = await privateApi.get("/reservations/total");
+    return res.data.total;
+  });
+
+  const {
+    data: totalCustomers,
+    isLoading: isLoadingCustomers,
+    isError: isErrorCustomers,
+    error: errorCustomers,
+  } = useQuery(["totalCustomers"], async () => {
+    const res = await privateApi.get("/users/total");
+    return res.data.total;
+  });
+
+  if (isLoadingSpots || isLoadingVehicles || isLoadingReservations || isLoadingCustomers) {
+    return <Loading />;
+  }
+
+  if (isErrorSpots || isErrorVehicles || isErrorReservations || isErrorCustomers) {
+    return (
+      <div>
+        <ErrorComponent label="Dashboard" error={errorSpots || errorVehicles || errorReservations || errorCustomers} />
+      </div>
+    );
+  }
 
   return (
     <div className="my-10">
-      <div className="grid grid-cols-4 gap-10 my-4">
+      <div className="grid sm:grid-cols-4 gap-10 my-4">
         <div className="w-full rounded-lg border border-purple-300 hover:shadow-md hover:border-purple-500 cursor-pointer transition-colors p-4">
           <h1 className="text-xl">Total Parking Spots</h1>
           <div className="text-2xl">{totalSpots}</div>

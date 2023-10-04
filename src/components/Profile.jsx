@@ -15,10 +15,6 @@ const UserProfile = ({ user }) => {
   return (
     <div className="p-4 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">{user.name}</h2>
-      {/* <div className="">Name: {user.name}</div>
-      <div className="">Email: {user.email}</div> */}
-
-      {/* <h3 className="text-xl font-semibold my-4">Customer Vehicles</h3> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {user.vehicles.length > 0 ? (
           user.vehicles.map((vehicle) => (

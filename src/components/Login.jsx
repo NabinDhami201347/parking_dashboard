@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 import { publicApi } from "../api";
 
 const Login = () => {
-  const { setToken } = useAuth();
+  const { setTokens } = useAuth();
   const navigate = useNavigate();
 
   const hanldeSubmit = async (e) => {
@@ -15,7 +15,7 @@ const Login = () => {
         email: "nabindhami14@gmail.com",
         password: "201347",
       });
-      setToken(res.data.accessToken);
+      setTokens(res.data.accessToken, res.data.refreshToken);
       navigate("/");
     } catch (error) {
       console.log("error", error.response.data.message);

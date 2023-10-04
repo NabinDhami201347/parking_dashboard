@@ -2,9 +2,11 @@ import { useState } from "react";
 
 import { privateApi } from "../api";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const SpotForm = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -27,14 +29,13 @@ const SpotForm = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const mutation = useMutation(
+    async (formData) => {
+      const newFeatures = formData.features.split(",").map((feature) => feature.trim());
+      const newImages = formData.imageUrls.split(",").map((img) => img.trim());
 
-    const newFeatures = formData.features.split(",").map((feature) => feature.trim());
-    const newImages = formData.imageUrls.split(",").map((img) => img.trim());
-
-    try {
-      await privateApi.post("/spots", {
+      // Perform the API call here
+      const response = await privateApi.post("/spots", {
         name: formData.name,
         location: formData.location,
         spotType: formData.spotType,
@@ -47,10 +48,23 @@ const SpotForm = () => {
         features: newFeatures,
         imageUrls: newImages,
       });
-      navigate("/spots");
-    } catch (error) {
-      console.log(error);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("spots");
+        navigate("/spots");
+      },
+      onError: (error) => {
+        console.error("Error:", error.message);
+      },
     }
+  );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate(formData);
   };
 
   return (

@@ -11,10 +11,10 @@ const Navbar = () => {
             <Link to="/">Home</Link>
           </li>
           <li className="hover:opacity-80 hover:underline">
-            <Link to="/spots">Spots</Link>
+            <Link to="/spots">Parking Places</Link>
           </li>
           <li className="hover:opacity-80 hover:underline">
-            <Link to="/create-spot">Create Spot</Link>
+            <Link to="/create-spot">Create Parking Place</Link>
           </li>
         </ul>
       </nav>

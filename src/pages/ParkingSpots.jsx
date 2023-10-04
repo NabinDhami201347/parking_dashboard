@@ -1,35 +1,27 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { publicApi } from "../api";
 import Spot from "../components/Spot";
 import Loading from "../components/Loading";
+import ErrorComponent from "../components/ErrorComponent";
 
 const ParkingSpots = () => {
-  const [spots, setSpots] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: spots,
+    error,
+    isLoading,
+    isError,
+  } = useQuery(["spots"], async () => {
+    const response = await publicApi.get("spots");
+    return response.data.spots;
+  });
 
-  const fetchSpots = async () => {
-    try {
-      const response = await publicApi.get("spots");
-
-      setSpots(response.data.spots);
-      setLoading(false);
-    } catch (error) {
-      setError(error);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchSpots();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <Loading />;
   }
-  if (error) {
-    return <h2>Error while fetching</h2>;
+
+  if (isError) {
+    return <ErrorComponent label="Parking Places" error={error} />;
   }
 
   return (

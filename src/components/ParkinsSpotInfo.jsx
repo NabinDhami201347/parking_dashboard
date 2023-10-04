@@ -5,29 +5,38 @@ import { FcDoNotMix, FcServices } from "react-icons/fc";
 
 import parkingImage from "/parking.webp";
 import { publicApi } from "../api";
-import { useState } from "react";
 import Loading from "./Loading";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 const ParkingSpotInfo = ({ spot }) => {
-  const [loading, setLoading] = useState(false);
-  const [isAvailable, setIsAvailable] = useState(spot.available);
+  const queryClient = useQueryClient();
 
-  const hanldeSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
+  const { mutate, isLoading } = useMutation(
+    async () => {
       await publicApi.put(`/spots/${spot._id}/avaliability`);
-      // Update the availability state after a successful request
-      setIsAvailable(!isAvailable);
-    } catch (error) {
-      console.log("error while updating", error.response.data.message);
-    } finally {
-      setLoading(false);
+    },
+    {
+      onError: (error) => {
+        console.log("error while updating", error.response.data);
+        // Rollback the state in case of an error
+        queryClient.invalidateQueries(["spot", spot._id]);
+      },
+      onSuccess: () => {
+        // Invalidate the query to trigger a refetch
+        queryClient.invalidateQueries(["spot", spot._id]);
+      },
     }
+  );
+
+  const isAvailable = spot.available;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutate();
   };
 
-  if (loading) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -39,7 +48,7 @@ const ParkingSpotInfo = ({ spot }) => {
             <FcServices className="h-10 w-10" />
             <p className="text-2xl">Avaliable</p>
           </div>
-          <button onClick={hanldeSubmit} className="py-1 px-4 bg-red-600 hover:bg-red-700 rounded-sm">
+          <button onClick={handleSubmit} className="py-1 px-4 bg-red-600 hover:bg-red-700 rounded-sm">
             Mark as unavailable
           </button>
         </div>
@@ -49,7 +58,7 @@ const ParkingSpotInfo = ({ spot }) => {
             <FcDoNotMix className="h-10 w-10" />
             <p className="text-2xl">Unavaliable</p>
           </div>
-          <button onClick={hanldeSubmit} className="py-1 px-4 bg-green-600 rounded-sm">
+          <button onClick={handleSubmit} className="py-1 px-4 bg-green-600 rounded-sm">
             Mark as available
           </button>
         </div>

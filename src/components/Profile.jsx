@@ -39,7 +39,7 @@ const UserProfile = ({ user }) => {
           <thead className="text-lg">
             <tr>
               <th className="px-4 py-2 border">Reservation ID</th>
-              <th className="px-4 py-2 border">Parking Spot</th>
+              <th className="px-4 py-2 border">Parking Place</th>
               <th className="px-4 py-2 border">Vehicle</th>
               <th className="px-4 py-2 border">Start Time</th>
               <th className="px-4 py-2 border">End Time</th>
@@ -57,7 +57,7 @@ const UserProfile = ({ user }) => {
                 </td>
                 <td className="border px-4 py-2">{formatDateTime(reservation.startTime)}</td>
                 <td className="border px-4 py-2">{formatDateTime(reservation.endTime)}</td>
-                <td className="border px-4 py-2">{reservation.status}</td>
+                <td className="relative flex items-center border px-4 py-2">{reservation.status}</td>
                 <td className="border px-4 py-2">${Math.round(reservation.totalCost)}</td>
               </tr>
             ))}

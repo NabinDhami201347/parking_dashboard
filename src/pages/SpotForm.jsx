@@ -1,8 +1,8 @@
 import { useState } from "react";
-
-import { privateApi } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { privateApi } from "../api";
 
 const SpotForm = () => {
   const navigate = useNavigate();
@@ -34,7 +34,6 @@ const SpotForm = () => {
       const newFeatures = formData.features.split(",").map((feature) => feature.trim());
       const newImages = formData.imageUrls.split(",").map((img) => img.trim());
 
-      // Perform the API call here
       const response = await privateApi.post("/spots", {
         name: formData.name,
         location: formData.location,
@@ -105,6 +104,7 @@ const SpotForm = () => {
         <div className="space-y-2">
           <label className="block text-sm font-medium">Spot Type:</label>
           <select
+            required
             name="spotType"
             value={formData.spotType}
             onChange={handleInputChange}
@@ -117,6 +117,7 @@ const SpotForm = () => {
         <div className="space-y-2">
           <label className="block text-sm font-medium">Price Per Hour:</label>
           <input
+            required
             type="number"
             name="pricePerHour"
             value={formData.pricePerHour}
@@ -127,6 +128,7 @@ const SpotForm = () => {
         <div className="space-y-2">
           <label className="block text-sm font-medium">Features: (comma, seperated)</label>
           <input
+            required
             type="text"
             name="features"
             value={formData.features}
@@ -137,6 +139,7 @@ const SpotForm = () => {
         <div className="space-y-2">
           <label className="block text-sm font-medium">Car Capacity:</label>
           <input
+            required
             type="number"
             name="carCapacity"
             value={formData.carCapacity}
@@ -147,6 +150,7 @@ const SpotForm = () => {
         <div className="space-y-2">
           <label className="block text-sm font-medium">Bike Capacity:</label>
           <input
+            required
             type="number"
             name="bikeCapacity"
             value={formData.bikeCapacity}
@@ -157,6 +161,7 @@ const SpotForm = () => {
         <div className="my-2 col-span-2 space-y-2">
           <label className="block text-sm font-medium">Image Urls: (comma seperated)</label>
           <input
+            required
             type="text"
             name="imageUrls"
             value={formData.imageUrls}

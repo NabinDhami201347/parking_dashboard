@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-import { publicApi } from "../api";
+import { privateApi } from "../api";
 import Loading from "../components/Loading";
 import ParkingSpotInfo from "../components/ParkinsSpotInfo";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ const ParkingSpot = () => {
     isError,
     error,
   } = useQuery(["spot", id], async () => {
-    const response = await publicApi.get(`/spots/${id}`);
+    const response = await privateApi.get(`/spots/${id}`);
     return response.data.spot;
   });
 

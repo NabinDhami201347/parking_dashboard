@@ -11,8 +11,8 @@ const TableHeader = () => (
       <th className="px-4 py-2 border">Customer Name</th>
       <th className="px-4 py-2 border">Vehicle</th>
       <th className="px-4 py-2 border">Vehicle No.</th>
-      <th className="px-4 py-2 border">Parking Spot</th>
-      <th className="px-4 py-2 border">Location</th>
+      <th className="px-4 py-2 border">Parking Place</th>
+      {/* <th className="px-4 py-2 border">Location</th> */}
       <th className="px-4 py-2 border">Start Time</th>
       <th className="px-4 py-2 border">End Time</th>
       <th className="px-4 py-2 border">Status</th>

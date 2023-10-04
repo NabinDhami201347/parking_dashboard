@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
-import { publicApi } from "../api";
+import { privateApi } from "../api";
 import Loading from "../components/Loading";
 import UserProfile from "../components/Profile";
 import ErrorComponent from "../components/ErrorComponent";
@@ -15,7 +15,7 @@ const Customer = () => {
     isError,
     error,
   } = useQuery(["customer", id], async () => {
-    const res = await publicApi.get(`/users/${id}`);
+    const res = await privateApi.get(`/users/${id}`);
     return res.data.user;
   });
 

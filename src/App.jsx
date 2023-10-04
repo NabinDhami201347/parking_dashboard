@@ -1,21 +1,28 @@
-import { Routes, Route, Outlet } from "react-router-dom";
+import { useContext } from "react";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 
-import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
-
 import ParkingSpots from "./pages/ParkingSpots";
 import Reservation from "./pages/Customer";
 import ParkingSpot from "./pages/ParkingSpot";
 import SpotForm from "./pages/SpotForm";
+import Login from "./pages/Login";
+import { TokensContext } from "./hooks/useTokens";
 
 function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route
+        element={
+          <RequireAuth>
+            <Layout />
+          </RequireAuth>
+        }
+      >
+        <Route index element={<Home />} />
         <Route path="/spots" element={<ParkingSpots />} />
         <Route path="/create-spot" element={<SpotForm />} />
         <Route path="/customers/:id" element={<Reservation />} />
@@ -24,23 +31,21 @@ function App() {
     </Routes>
   );
 }
+// eslint-disable-next-line react/prop-types
+function RequireAuth({ children }) {
+  const { accessToken } = useContext(TokensContext);
 
-// function RequireAuth(props) {
-//   const { accessToken } = useAuth();
+  if (!accessToken) {
+    return <Navigate to="/login" replace />;
+  }
 
-//   if (!accessToken) {
-//     return <Navigate to="/login" replace />;
-//   }
-
-//   // eslint-disable-next-line react/prop-types
-//   return props.children;
-// }
+  return children;
+}
 
 function Layout() {
   return (
     <div className="bg-zinc-900 w-full min-h-screen flex flex-col text-white">
       <Navbar />
-
       <main className="flex-1 w-11/12 mx-auto mt-16">
         <Outlet />
       </main>

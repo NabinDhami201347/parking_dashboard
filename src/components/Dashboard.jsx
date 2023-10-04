@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
-import Reservations from "../components/Reservations";
+import Reservations from "./Reservations";
 import { privateApi } from "../api";
-import Loading from "../components/Loading";
-import ErrorComponent from "../components/ErrorComponent";
+import Loading from "./Loading";
+import ErrorComponent from "./ErrorComponent";
 
 const Dashboard = () => {
   const {

@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import { privateApi } from "../api";
+
 import Loading from "../components/Loading";
 import ParkingSpotInfo from "../components/ParkinsSpotInfo";
-import { useQuery } from "@tanstack/react-query";
 import ErrorComponent from "../components/ErrorComponent";
 
 const ParkingSpot = () => {
@@ -18,6 +19,8 @@ const ParkingSpot = () => {
     const response = await privateApi.get(`/spots/${id}`);
     return response.data.spot;
   });
+
+  console.log(spot);
 
   if (isLoading) {
     return <Loading />;

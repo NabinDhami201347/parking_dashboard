@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Bike, Car } from "lucide-react";
 import moment from "moment";
+import EditStatus from "./modal/EditStatus";
 
 const UserProfile = ({ user }) => {
   const formatDateTime = (dateTime) => {
@@ -49,7 +50,7 @@ const UserProfile = ({ user }) => {
           </thead>
           <tbody>
             {user.reservations.map((reservation) => (
-              <tr key={reservation._id} className="text-base">
+              <tr key={reservation._id} className="text-sm">
                 <td className="border px-4 py-2">{reservation._id}</td>
                 <td className="border px-4 py-2">{reservation.parkingSpot.name}</td>
                 <td className="border px-4 py-2">
@@ -57,7 +58,18 @@ const UserProfile = ({ user }) => {
                 </td>
                 <td className="border px-4 py-2">{formatDateTime(reservation.startTime)}</td>
                 <td className="border px-4 py-2">{formatDateTime(reservation.endTime)}</td>
-                <td className="relative flex items-center border px-4 py-2">{reservation.status}</td>
+                <td
+                  className={`flex items-center justify-between h-full border px-4 py-2 ${
+                    reservation.status === "Pending"
+                      ? "text-yellow-500"
+                      : reservation.status === "Confirmed"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {reservation.status}
+                  <EditStatus status={reservation.status} id={reservation._id} />
+                </td>
                 <td className="border px-4 py-2">${Math.round(reservation.totalCost)}</td>
               </tr>
             ))}

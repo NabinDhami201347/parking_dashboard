@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Bike, Car } from "lucide-react";
 import moment from "moment";
+
 import EditStatus from "./modal/EditStatus";
 
 const UserProfile = ({ user }) => {
@@ -20,13 +21,13 @@ const UserProfile = ({ user }) => {
         {user.vehicles.length > 0 ? (
           user.vehicles.map((vehicle) => (
             <div
-              key={vehicle._id}
+              key={vehicle?._id}
               className="rounded-lg shadow-md border border-pink-400 hover:border-pink-600 cursor-pointer transition-colors p-4"
             >
-              <h4 className="text-lg font-semibold mb-2">{iconMap[vehicle.vehicleType]}</h4>
-              <p className="text-gray-200">Model: {vehicle.model}</p>
-              <p className="text-gray-200">Liscense Number: {vehicle.licensePlate}</p>
-              <p className="text-gray-200">Registration: {formatDateTime(vehicle.createdAt)}</p>
+              <h4 className="text-lg font-semibold mb-2">{iconMap[vehicle?.vehicleType] ?? iconMap["car"]}</h4>
+              <p className="text-gray-200">Model: {vehicle?.model ?? "LIS"}</p>
+              <p className="text-gray-200">Liscense Number: {vehicle?.licensePlate}</p>
+              <p className="text-gray-200">Registration: {formatDateTime(vehicle?.createdAt)}</p>
             </div>
           ))
         ) : (
@@ -54,7 +55,7 @@ const UserProfile = ({ user }) => {
                 <td className="border px-4 py-2">{reservation._id}</td>
                 <td className="border px-4 py-2">{reservation.parkingSpot.name}</td>
                 <td className="border px-4 py-2">
-                  {reservation.vehicle.model} ({reservation.vehicle.licensePlate})
+                  {reservation?.vehicle?.model} ({reservation?.vehicle?.licensePlate ?? "LIS"})
                 </td>
                 <td className="border px-4 py-2">{formatDateTime(reservation.startTime)}</td>
                 <td className="border px-4 py-2">{formatDateTime(reservation.endTime)}</td>

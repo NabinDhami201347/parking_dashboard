@@ -8,8 +8,9 @@ const PieChart = ({ reservations }) => {
   const chartInstance = useRef(null);
 
   // Calculate the number of reservations for cars and bikes
-  const carReservations = reservations.filter((reservation) => reservation.vehicle.vehicleType === "car").length;
-  const bikeReservations = reservations.filter((reservation) => reservation.vehicle.vehicleType === "bike").length;
+  const carReservations = reservations.filter((reservation) => reservation?.vehicle?.vehicleType === "car").length ?? 5;
+  const bikeReservations =
+    reservations.filter((reservation) => reservation?.vehicle?.vehicleType === "bike").length ?? 5;
 
   const chartData = {
     labels: ["Car", "Bike"],

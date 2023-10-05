@@ -19,10 +19,9 @@ const TableRow = ({ reservation }) => {
         <Link to={`/customers/${reservation.customer._id}`}>{reservation.customer.name}</Link>
       </td>
       <td className="flex items-center justify-between border px-4 py-2">
-        {iconMap[reservation.vehicle.vehicleType]} {reservation.vehicle.licensePlate}
+        {iconMap[reservation?.vehicle?.vehicleType] ?? iconMap["car"]} {reservation?.vehicle?.licensePlate ?? "LIS"}
       </td>
       <td className="border px-4 py-2">{reservation.parkingSpot.name}</td>
-      {/* <td className="border px-4 py-2">{reservation.parkingSpot.location}</td> */}
       <td className="border px-4 py-2">{formattedStartTime}</td>
       <td className="border px-4 py-2">{formattedEndTime}</td>
       <td

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { publicApi } from "../api";
+import { privateApi } from "../api";
 import TableRow from "./TableRow";
 import Loading from "./Loading";
 import ErrorComponent from "./ErrorComponent";
@@ -29,7 +29,7 @@ const Reservations = () => {
     isError,
     error,
   } = useQuery(["reservations"], async () => {
-    const response = await publicApi.get("reservations");
+    const response = await privateApi.get("reservations");
     return response.data.reservations;
   });
 

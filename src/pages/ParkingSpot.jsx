@@ -20,8 +20,6 @@ const ParkingSpot = () => {
     return response.data.spot;
   });
 
-  console.log(spot);
-
   if (isLoading) {
     return <Loading />;
   }

@@ -4,7 +4,7 @@ import { Bike, Car, DollarSign } from "lucide-react";
 import { FcDoNotMix, FcServices } from "react-icons/fc";
 
 import parkingImage from "/parking.webp";
-import { publicApi } from "../api";
+import { privateApi } from "../api";
 import Loading from "./Loading";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ const ParkingSpotInfo = ({ spot }) => {
 
   const { mutate, isLoading } = useMutation(
     async () => {
-      await publicApi.put(`/spots/${spot._id}/avaliability`);
+      await privateApi.put(`/spots/${spot._id}/avaliability`);
     },
     {
       onError: (error) => {

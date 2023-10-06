@@ -12,7 +12,7 @@ const Dashboard = () => {
     isError: isErrorSpots,
     error: errorSpots,
   } = useQuery(["totalSpots"], async () => {
-    const res = await privateApi.get("/spots/total");
+    const res = await privateApi.get("/spots/p/total");
     return res.data.total;
   });
 

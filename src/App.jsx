@@ -2,14 +2,16 @@ import { useContext } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import { TokensContext } from "./hooks/useTokens";
 
 import Home from "./pages/Home";
-import ParkingSpots from "./pages/ParkingSpots";
+import Login from "./pages/Login";
+import Parking from "./pages/Parking";
+import SpotForm from "./pages/SpotForm";
+import Parkings from "./pages/Parkings";
 import Reservation from "./pages/Customer";
 import ParkingSpot from "./pages/ParkingSpot";
-import SpotForm from "./pages/SpotForm";
-import Login from "./pages/Login";
-import { TokensContext } from "./hooks/useTokens";
+import ParkingSpots from "./pages/ParkingSpots";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
       >
         <Route index element={<Home />} />
         <Route path="/spots" element={<ParkingSpots />} />
+        <Route path="/parkings" element={<Parkings />} />
+        <Route path="/parkings/id" element={<Parking />} />
         <Route path="/create-spot" element={<SpotForm />} />
         <Route path="/customers/:id" element={<Reservation />} />
         <Route path="/spots/:id" element={<ParkingSpot />} />

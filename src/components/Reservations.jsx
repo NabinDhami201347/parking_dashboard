@@ -18,6 +18,7 @@ const TableHeader = () => (
       <th className="px-4 py-2 border">End Time</th>
       <th className="px-4 py-2 border">Status</th>
       <th className="px-4 py-2 border">Total Cost</th>
+      <th className="px-4 py-2 border">Issue Parking</th>
     </tr>
   </thead>
 );

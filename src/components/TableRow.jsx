@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import moment from "moment";
 import { Link } from "react-router-dom";
-import EditStatus from "./modal/EditStatus";
 import { Bike, Car } from "lucide-react";
+
+import EditStatus from "./modal/EditStatus";
+import ParkingModal from "./modal/ParkingModal";
 
 const TableRow = ({ reservation }) => {
   const formattedStartTime = moment(reservation.startTime).format("DD MMM, HH:mm A");
@@ -36,7 +38,11 @@ const TableRow = ({ reservation }) => {
         {reservation.status}
         <EditStatus status={reservation.status} id={reservation._id} />
       </td>
+
       <td className="border px-4 py-2">${reservation.totalCost.toFixed(2)}</td>
+      <td className="border px-4 py-2">
+        <ParkingModal id={reservation._id} />
+      </td>
     </tr>
   );
 };

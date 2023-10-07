@@ -20,13 +20,32 @@ const SpotForm = () => {
     imageUrls: [],
   });
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "pricePerHour" || name === "carCapacity" || name === "bikeCapacity") {
+      const parsedValue = parseFloat(value);
+      if (!isNaN(parsedValue) && parsedValue > 0) {
+        setFormData({
+          ...formData,
+          [name]: parsedValue,
+        });
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const mutation = useMutation(
